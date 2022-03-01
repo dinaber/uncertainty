@@ -1,4 +1,5 @@
-# uncertainty
+# **uncertainty**
+==================
 Wrapper classes and other tools to predict model uncertainty. 
 
 ## Installation
