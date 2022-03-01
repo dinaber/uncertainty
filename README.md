@@ -7,7 +7,9 @@ Wrapper classes and other tools to predict model uncertainty.
 
 ## Description
 In this repository we provide you with easy to use, off the shelf wrapper classes and utils to calculate the uncertainty of your model.
-We currently support Random Forest Classifier wrapper, which is sklearn compatible. The uncertainty calculation are based on Shannon's entropy and are implemented based on the paper [Shaker MH, Hüllermeier E. Aleatoric and epistemic uncertainty with random forests. InInternational Symposium on Intelligent Data Analysis 2020 Apr 27 (pp. 444-456). Springer, Cham](https://arxiv.org/pdf/2001.00893.pdf).
+We currently support Random Forest Classifier wrapper, which is sklearn compatible. 
+
+The uncertainty calculation are based on Shannon's entropy and are implemented based on the paper [Shaker MH, Hüllermeier E. Aleatoric and epistemic uncertainty with random forests. InInternational Symposium on Intelligent Data Analysis 2020 Apr 27 (pp. 444-456). Springer, Cham](https://arxiv.org/pdf/2001.00893.pdf).
 
 
 ## Usage
