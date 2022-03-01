@@ -12,8 +12,8 @@ from sklearn.ensemble import RandomForestClassifier
 from typing import Dict, List
 
 
-from Explainability.research.insights_kpi.trust_model.constants import Uncertainty
-from Explainability.research.insights_kpi.trust_model.uncertainty_utils import calculate_entropy_uncertainties
+from uncertainty.constants import Uncertainty
+from uncertainty.uncertainty_utils import calculate_entropy_uncertainties
 
 
 class RandomForestClassifierWithUncertainty(RandomForestClassifier):
