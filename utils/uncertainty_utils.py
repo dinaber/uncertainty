@@ -62,7 +62,6 @@ def _calculate_class_conditional_probabilities(label, n_labels, end_leaf, tree_l
     :param label: label number∈[0,1,2,...], corresponds to the index in leaf_split to recover the number of training sample in a leaf
     with this label
     :param n_labels: total number of possible labels (i.e. for binary this would be 2)
-    :return:
     """
     n_y = tree_leafs_split[end_leaf][label]
     n = sum(tree_leafs_split[end_leaf])
