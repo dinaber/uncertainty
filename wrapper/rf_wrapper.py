@@ -12,8 +12,8 @@ from sklearn.ensemble import RandomForestClassifier
 from typing import Dict, List
 
 
-from uncertainty.constants import Uncertainty
-from uncertainty.uncertainty_utils import calculate_entropy_uncertainties
+from uncertainty.resources.constants import Uncertainty
+from uncertainty.utils.uncertainty_utils import calculate_entropy_uncertainties
 
 
 class RandomForestClassifierWithUncertainty(RandomForestClassifier):
@@ -23,7 +23,7 @@ class RandomForestClassifierWithUncertainty(RandomForestClassifier):
         self._labels = None
         self.used_features = None
 
-    def fit(self, X, y, sample_weight=None, method='isotonic'):
+    def fit(self, X, y, sample_weight=None):
         super().fit(X, y, sample_weight=sample_weight)
 
         # produce a map of the counts of labels in each leaf
@@ -39,7 +39,7 @@ class RandomForestClassifierWithUncertainty(RandomForestClassifier):
         uncertainties = self._extract_uncertainty_of_prediction(end_leafs, method='entropy')
         return predictions, uncertainties
 
-    def predict_proba_with_uncertainty(self, X_test, calibrated=False) -> (np.ndarray, List[Uncertainty]):
+    def predict_proba_with_uncertainty(self, X_test) -> (np.ndarray, List[Uncertainty]):
         predictions = self.predict_proba_1d(X_test, calibrated)
         end_leafs = self.apply(X_test)
         uncertainties = self._extract_uncertainty_of_prediction(end_leafs, method='entropy')
