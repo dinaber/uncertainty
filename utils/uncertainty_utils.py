@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from typing import List, Dict
 
-from uncertainty.constants import Uncertainty
+from uncertainty.resources.constants import Uncertainty
 
 
 def calculate_entropy_uncertainties(labels: list, end_leafs: np.ndarray, leafs_split: List[Dict[int, List[int]]]) -> Uncertainty:
