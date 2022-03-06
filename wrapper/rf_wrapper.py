@@ -114,6 +114,8 @@ class RandomForestClassifierWithUncertainty(RandomForestClassifier):
         if method == 'entropy':
             for row in end_leafs:  # each row is the result for one sample
                 uncertainty.append(calculate_entropy_uncertainties(self._labels, row, self.leafs_content))
+        else:
+            raise NotImplementedError
         return uncertainty
 
 
