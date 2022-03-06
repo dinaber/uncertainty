@@ -15,7 +15,7 @@ def calculate_entropy_uncertainties(labels: list, end_leafs: np.ndarray, leafs_s
     """
     Based on the paper Shaker MH, Hüllermeier E. Aleatoric and epistemic uncertainty with random forests. In International Symposium on
     Intelligent Data Analysis 2020 Apr 27 (pp. 444-456). Springer, Cham. (https://arxiv.org/pdf/2001.00893.pdf)
-    We calculate three types of uncertainties:
+    Given a single sample x, we calculate three types of uncertainties:
     1. total
     2. aleatoric (statistical)
     3. epistemic (information related)
@@ -35,25 +35,29 @@ def calculate_entropy_uncertainties(labels: list, end_leafs: np.ndarray, leafs_s
     X_train.shape[0].
     :return: A named tuple with the three uncertainties calculated
     """
-
     n_labels = len(labels)
     tot_u = 0  # total uncertainty
     al_u = 0  # aleatoric uncertainty
     for label in labels:  # go over the labels
-        tot_p = 0
-        tot_p_log_p = 0
+        tot_p = 0  # total uncertainty
+        tot_p_log_p = 0  # helper for aleatoric uncertainty
         for tree_leafs_split, end_leaf in zip(leafs_split, end_leafs):  # go over all the hypotheses (trees)
-            # We first want to calculate p(y | hi, x) for each tree, based on the leaf where each sample ends up. In random forest this
-            # is the (ni,j(y) + 1) / (ni,j + |Y|)
+            # We first want to calculate p(y | hi, x) for each tree ('hi'), based on the leaf where each sample ends up. In random forest
+            # this is the (n_(i,j)(y) + 1) / (n_(i,j) + |Y|), where n_(i,j) are the number of samples in tree i, leaf j and n_(i,j)(y) are
+            # the number of samples in tree i, leaf j with label y
             p = _calculate_class_conditional_probabilities(label, n_labels, end_leaf, tree_leafs_split)
             tot_p += p
             tot_p_log_p += p * np.log2(p)
+
+        # Total uncertainty for label i:
         mean_tot_p = tot_p / len(end_leafs)  # get the average over all trees
-        mean_tot_p_log_p = tot_p_log_p / len(end_leafs)  # get the average over all trees
         log_mean_tot_p = np.log2(mean_tot_p)
-        tot_u += mean_tot_p * log_mean_tot_p
-        al_u += mean_tot_p_log_p
-    return Uncertainty(-1 * tot_u, -1 * al_u, -1 * (tot_u - al_u))
+        tot_u -= mean_tot_p * log_mean_tot_p
+
+        # Aleatoric uncertainty for label i:
+        mean_tot_p_log_p = tot_p_log_p / len(end_leafs)  # get the average over all trees
+        al_u -= mean_tot_p_log_p
+    return Uncertainty(tot_u, al_u, tot_u - al_u)
 
 
 def _calculate_class_conditional_probabilities(label, n_labels, end_leaf, tree_leafs_split) -> float:
