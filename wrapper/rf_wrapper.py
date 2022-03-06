@@ -12,8 +12,8 @@ from sklearn.ensemble import RandomForestClassifier
 from typing import Dict, List
 
 
-from uncertainty.resources.constants import Uncertainty
-from uncertainty.utils.uncertainty_utils import calculate_entropy_uncertainties
+from resources.constants import Uncertainty
+from utils.uncertainty_utils import calculate_entropy_uncertainties
 
 
 class RandomForestClassifierWithUncertainty(RandomForestClassifier):
@@ -40,7 +40,7 @@ class RandomForestClassifierWithUncertainty(RandomForestClassifier):
         return predictions, uncertainties
 
     def predict_proba_with_uncertainty(self, X_test) -> (np.ndarray, List[Uncertainty]):
-        predictions = self.predict_proba_1d(X_test, calibrated)
+        predictions = self.predict_proba_1d(X_test)
         end_leafs = self.apply(X_test)
         uncertainties = self._extract_uncertainty_of_prediction(end_leafs, method='entropy')
         return predictions, uncertainties
