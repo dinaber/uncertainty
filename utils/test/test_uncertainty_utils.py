@@ -3,7 +3,7 @@
 Created on Feb 2022
 @author: Dina Berenbaum
 """
-from Explainability.research.insights_kpi.trust_model.uncertainty_utils import _calculate_class_conditional_probabilities, \
+from uncertainty.utils.uncertainty_utils import _calculate_class_conditional_probabilities, \
     calculate_entropy_uncertainties
 import numpy as np
 
